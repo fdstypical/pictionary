@@ -1,13 +1,13 @@
-const path = require("path");
+const path = require('path');
 
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CompressionPlugin = require("compression-webpack-plugin");
-const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const webpack = require("webpack");
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const webpack = require('webpack');
 
 const htmlPluginConfig = {
-  filename: "index.html",
+  filename: 'index.html',
   hash: true,
 };
 
@@ -16,10 +16,10 @@ const plugins = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       ...htmlPluginConfig,
-      template: path.resolve(__dirname, "../src/", "public/template.html"),
+      template: path.resolve(__dirname, '/public/template.html'),
     }),
     new CompressionPlugin({
-      algorithm: "gzip",
+      algorithm: 'gzip',
       compressionOptions: { level: 6 },
     }),
     new ForkTsCheckerWebpackPlugin(),
@@ -27,7 +27,7 @@ const plugins = {
   development: [
     new HtmlWebpackPlugin({
       ...htmlPluginConfig,
-      template: path.resolve(__dirname, "../src/", "public/template.html"),
+      template: path.resolve(__dirname, '/public/template.html'),
     }),
     new webpack.HotModuleReplacementPlugin(),
     new ForkTsCheckerWebpackPlugin(),

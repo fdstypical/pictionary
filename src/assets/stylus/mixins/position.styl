@@ -1,0 +1,19 @@
+pos($position, $top = false, $left = false, $bottom = false, $right = false)
+  position: $position;
+  if $top and $top is a 'unit'
+      top: $top;
+  if $left and $left is a 'unit'
+    left: $left;
+  if $bottom and $bottom is a 'unit'
+    bottom: $bottom;
+  if $right and $right is a 'unit'
+    right: $right;
+
+fixed($top = false, $left = false, $bottom = false, $right = false) 
+	pos(fixed, $top, $left, $bottom, $right);
+
+absolute($top = false, $left = false, $bottom = false, $right = false) 
+	pos(absolute, $top, $left, $bottom, $right);
+
+relative($top = false, $left = false, $bottom = false, $right = false) 
+	pos(relative, $top, $left, $bottom, $right);

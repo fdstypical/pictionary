@@ -1,0 +1,61 @@
+{
+  "name": "pictionary",
+  "version": "1.0.0",
+  "description": "draw and guess",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --progress --mode=production",
+    "start": "webpack serve --progress --mode=development",
+    "check-types": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fdstypical/pictionary.git"
+  },
+  "keywords": [
+    "js",
+    "canvas",
+    "ts",
+    "react",
+    "pictionary",
+    "draw&guess"
+  ],
+  "author": "fdstypical <ashulmin14@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fdstypical/pictionary/issues"
+  },
+  "homepage": "https://github.com/fdstypical/pictionary#readme",
+  "devDependencies": {
+    "@babel/core": "^7.14.8",
+    "@babel/plugin-proposal-class-properties": "^7.14.5",
+    "@babel/plugin-proposal-object-rest-spread": "^7.14.7",
+    "@babel/preset-env": "^7.14.8",
+    "@babel/preset-react": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
+    "@csstools/normalize.css": "^11.0.1",
+    "@types/node": "^16.4.8",
+    "@types/react": "^17.0.15",
+    "@types/react-dom": "^17.0.9",
+    "@types/react-router-dom": "^5.1.8",
+    "babel-loader": "^8.2.2",
+    "clean-webpack-plugin": "^4.0.0-alpha.0",
+    "compression-webpack-plugin": "^8.0.1",
+    "css-loader": "^6.2.0",
+    "file-loader": "^6.2.0",
+    "fork-ts-checker-webpack-plugin": "^6.2.13",
+    "html-webpack-plugin": "^5.3.2",
+    "image-webpack-loader": "^7.0.1",
+    "style-loader": "^3.2.1",
+    "stylus": "^0.54.8",
+    "stylus-loader": "^6.1.0",
+    "typescript": "^4.3.5",
+    "webpack": "^5.47.1",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  }
+}

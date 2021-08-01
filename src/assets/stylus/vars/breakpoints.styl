@@ -1,0 +1,26 @@
+$basis = 16;
+$px = 1rem / $basis;
+$breakpoint := {
+  xs-only: "only screen and (max-width: %s)" % ($breakpoints.ms - $px)
+  xs-and-up: "only screen and (min-width: %s)" % ($breakpoints.xs)
+  ms-only: "only screen and (min-width: %s) and (max-width: %s)" % ($breakpoints.ms ($breakpoints.sm - $px))
+  ms-and-down: "only screen and (max-width: %s)" % ($breakpoints.sm - $px)
+  ms-and-up: "only screen and (min-width: %s)" % ($breakpoints.ms)
+  sm-only: "only screen and (min-width: %s) and (max-width: %s)" % ($breakpoints.sm ($breakpoints.md - $px))
+  sm-and-down: "only screen and (max-width: %s)" % ($breakpoints.md - $px)
+  sm-and-up: "only screen and (min-width: %s)" % ($breakpoints.sm)
+  md-only: "only screen and (min-width: %s) and (max-width: %s)" % ($breakpoints.md ($breakpoints.lg * $basis - $px))
+  md-and-down: "only screen and (max-width: %s )" % ($breakpoints.lg - $px)
+  md-and-up: "only screen and (min-width: %s)" % ($breakpoints.md)
+  lg-only: "only screen and (min-width: %s) and (max-width: %s)" % ($breakpoints.lg ($breakpoints.xl - $px))
+  lg-and-down: "only screen and (max-width: %s)" % ($breakpoints.xl - $px)
+  lg-and-up: "only screen and (min-width: %s)" % ($breakpoints.lg)
+  xl-only: "only screen and (min-width: %s)" % ($breakpoints.xl)
+  xl-and-down: "only screen and (max-width: %s)" % ($breakpoints.xl)
+}
+
+breakpoint($value) {
+  @media $breakpoint[$value] {
+    {block}
+  }
+}

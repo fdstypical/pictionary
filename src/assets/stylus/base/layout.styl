@@ -1,0 +1,45 @@
+@require '../vars/variables.styl';
+@require '../vars/colors.styl';
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: $font-base;
+  font-size: $font-size;
+  line-height: 1.25;
+  font-weight: normal;
+  // color: $color-default-text;
+  // background: $color-default-background;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+}
+
+input {
+  &[type=number] {
+    -moz-appearance: textfield;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+}
+
+svg[aria-hidden=true] {
+  display: none;
+}
+
+.l-container {
+  container();
+
+  &--fluid {
+    container(true);
+  }
+}

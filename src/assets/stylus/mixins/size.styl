@@ -1,0 +1,14 @@
+size($width, $height = $width, $prop-prefix = false)
+  $prefixes = min max;
+  if $prop-prefix in $prefixes
+    {$prop-prefix}-width: $width;
+    {$prop-prefix}-height: $height;
+  else
+    width: $width;
+    height: $height;
+
+min-size($width, $height = $width) 
+  size($width, $height, min);
+
+max-size($width, $height = $width) 
+  size($width, $height, max);

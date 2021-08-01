@@ -1,0 +1,55 @@
+circle($size, $radius = 50%)
+  size($size);
+  border-radius: $radius;
+
+triangle($size = 1em, $dir = bottom, $sides-size = $size/2, $color = currentColor) 
+  size(0px);
+  $dir-opposite = top;
+  $sides = left right;
+  if $dir is bottom
+    $dir-opposite = top;
+  else if $dir is top
+    $dir-opposite = bottom;
+  else if $dir is left
+    $dir-opposite = right;
+    $sides = top bottom;
+  else if $dir is right
+    $dir-opposite = left;
+    $sides = top bottom;
+  else 
+    warn("$dir must be one of 'top, bottom, left or right'");
+  
+  
+  display: block;
+  border-{$dir-opposite}: $size solid $color;
+  border-{$dir}: 0 solid transparent;
+  for $side in $sides {
+    border-{$side}: ($sides-size / 2) solid transparent;
+  }
+
+trapezoid($size = 1em, $dir = top, $sides-size = 1em, $color = currentColor)
+  $dir-opposite = top;
+  $sides = left right;
+  if $dir is bottom
+    $dir-opposite = top;
+  else if $dir is top
+    $dir-opposite = bottom;
+  else if $dir is left
+    $dir-opposite = right;
+    $sides = top bottom;
+  else if $dir is right
+    $dir-opposite = left;
+    $sides = top bottom;
+  else 
+    warn("$dir must be one of 'top, bottom, left or right'");
+
+  border-{$dir-opposite}: $size solid $color;
+  for $side in $sides {
+    border-{$side}: ($sides-size/2) solid transparent;
+  }
+  if $dir is top || $dir is bottom
+    height: 0;
+    width: $size;
+  else 
+    width 0
+    height $size

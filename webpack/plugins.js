@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 const webpack = require('webpack');
 
 const htmlPluginConfig = {
@@ -23,6 +24,7 @@ const plugins = {
       compressionOptions: { level: 6 },
     }),
     new ForkTsCheckerWebpackPlugin(),
+    new SpriteLoaderPlugin({ plainSprite: true }),
   ],
   development: [
     new HtmlWebpackPlugin({
@@ -31,6 +33,7 @@ const plugins = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new ForkTsCheckerWebpackPlugin(),
+    new SpriteLoaderPlugin({ plainSprite: true }),
   ],
 };
 

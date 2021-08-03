@@ -32,7 +32,6 @@ const genericConfig = {
             loader: 'svg-sprite-loader',
             options: {
               extract: false,
-              spriteFilename: 'img/icons.[hash:4].svg',
             },
           },
           'svgo-loader',

@@ -4,7 +4,7 @@ const {
   devServer,
   output,
   optimization,
-} = require("./webpack");
+} = require('./webpack');
 
 async function webpackPrestart(env, { mode }) {
   return {
@@ -13,6 +13,7 @@ async function webpackPrestart(env, { mode }) {
     plugins: plugins[mode],
     optimization: optimization[mode],
     devServer,
+    target: mode === 'development' ? 'web' : 'browserslist',
   };
 }
 

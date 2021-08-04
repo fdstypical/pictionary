@@ -13,7 +13,7 @@ export interface SvgIconProps {
   title?: string;
   stroked?: boolean;
   filled?: boolean;
-  color?: keyof typeof SvgIconColor;
+  color?: SvgIconColor;
   iconSettings?: { [key: string]: any };
 }
 

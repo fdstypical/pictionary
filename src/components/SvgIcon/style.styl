@@ -1,0 +1,28 @@
+@require '~@/assets/stylus/vars/variables';
+$icon-themes = {
+  light: $theme-light.base,
+  dark: $theme-dark.base,
+  primary: $theme-primary.base,
+  secondary: $theme-secondary.base,
+}
+
+.svg-icon {
+  font-size: inherit;
+  width: 1em;
+  height: 1em;
+
+  &--filled {
+    fill: currentColor;
+  }
+
+  &--stroked {
+    stroke: currentColor;
+  }
+
+  for $key, $val in $icon-themes {
+    &--color_{$key} {
+      color: $val !important;
+    }
+  }
+
+}

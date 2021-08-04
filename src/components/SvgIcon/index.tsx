@@ -1,12 +1,19 @@
 import React, { useEffect } from 'react';
 import './style.styl';
 
+export enum SvgIconColor {
+  light = 'light',
+  dark = 'dark',
+  primary = 'primary',
+  secondary = 'secondary',
+}
+
 export interface SvgIconProps {
   name: string;
   title?: string;
   stroked?: boolean;
   filled?: boolean;
-  color?: string;
+  color?: keyof typeof SvgIconColor;
   iconSettings?: { [key: string]: any };
 }
 

@@ -1,0 +1,9 @@
+container($fluid = false)
+  padding: 0 $gutter;
+  margin: 0 auto;
+
+  if $fluid {
+    max-width: 100%;
+  } else {
+    max-width: ($container-max + $gutter * 2);
+  }

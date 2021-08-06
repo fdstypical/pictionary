@@ -19,7 +19,11 @@
     "isolatedModules": true,
     "noEmit": true,
     "sourceMap": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": [
     "src/**/*",

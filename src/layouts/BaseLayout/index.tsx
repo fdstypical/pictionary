@@ -1,16 +1,16 @@
 import React from 'react';
 
+import Header from '../../components/Header';
+import Logo from '../../components/Logo';
+
 import './style.styl';
 
 const BaseLayout: React.FC = () => (
   <div className="base-layout l-container">
+    <Header start={<Logo to="/" />} />
+
     <main className="base-layout__main">
-      <h1>asd</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Perferendis
-        nulla quo esse modi adipisci rem, dolorem amet officia illo vitae, ipsa
-        consequuntur iusto ab qui architecto eos totam quibusdam! Et.
-      </p>
+      <div style={{ width: '100%' }}>test</div>
     </main>
   </div>
 );

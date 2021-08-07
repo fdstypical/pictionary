@@ -28,6 +28,10 @@ export enum ButtonShapes {
   circle = 'circle',
 }
 
+export interface ButtonIconSettings {
+  [key: string]: any;
+}
+
 export interface ButtonProps {
   title?: string;
   theme?: ButtonThemes;
@@ -39,7 +43,7 @@ export interface ButtonProps {
   wide?: boolean;
   dense?: boolean;
   disabled?: boolean;
-  iconSettings?: { [key: string]: any };
+  iconSettings?: ButtonIconSettings;
   onClick?: () => void;
 }
 
@@ -58,13 +62,11 @@ const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
 }) => {
-  const classNames = `base-button ${
-    theme ? `base-button--theme_${theme}` : ''
-  } ${color ? `base-button--color_${color}` : ''} ${
-    size ? `base-button--size_${size}` : ''
-  } ${shape ? `base-button--shape_${shape}` : ''} ${reverse ? 'reverse' : ''} ${
-    wide ? 'wide' : ''
-  } ${dense ? 'dense' : ''} ${icon && !title && !children ? 'only-icon' : ''}`;
+  const classNames = `base-button base-button--theme_${theme} base-button--color_${color} base-button--size_${size} base-button--shape_${shape} ${
+    reverse ? 'reverse' : ''
+  } ${wide ? 'wide' : ''} ${dense ? 'dense' : ''} ${
+    icon && !title && !children ? 'only-icon' : ''
+  }`;
 
   return (
     <button className={classNames} disabled={disabled} onClick={onClick}>

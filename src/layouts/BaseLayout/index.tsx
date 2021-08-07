@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Header from '@/components/Header';
-import Logo from '@/components/Logo';
+import Logo, { LogoColors, LogoThemes } from '@/components/Logo';
 import Sidebar from '@/components/Sidebar';
 import Button, { ButtonColors, ButtonThemes } from '@/components/Button';
 
@@ -10,21 +10,30 @@ import Main from '@/views/Main';
 import './style.styl';
 
 const BaseLayout: React.FC = () => {
-  const [sidebar, open] = useState<boolean>(false);
+  const [showSidebar, openSidebar] = useState<boolean>(false);
 
   return (
     <div className="base-layout">
       <div className="base-layout__layout">
         <Header
-          start={<Logo to="/" />}
+          start={
+            <Logo
+              to="/"
+              color={LogoColors.secondary}
+              theme={LogoThemes.italic}
+            />
+          }
           end={
             <Button
               dense
-              icon="menu"
+              icon={showSidebar ? 'close' : 'menu'}
               theme={ButtonThemes.plain}
               color={ButtonColors.secondary}
-              iconSettings={{ stroked: true, iconSettings: { strokeWidth: 3 } }}
-              onClick={() => open((prev) => !prev)}
+              iconSettings={{
+                stroked: true,
+                iconSettings: { strokeWidth: 3 },
+              }}
+              onClick={() => openSidebar((prev) => !prev)}
             />
           }
         />
@@ -40,7 +49,7 @@ const BaseLayout: React.FC = () => {
 
       <div
         className="base-layout__sidebar"
-        style={{ width: sidebar ? '350px' : '0px' }}
+        style={{ width: showSidebar ? '360px' : '0px' }}
       >
         <Sidebar />
       </div>

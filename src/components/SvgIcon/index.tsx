@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
 import './style.styl';
 
-export enum SvgIconColor {
+export enum SvgIconColors {
   light = 'light',
   dark = 'dark',
   primary = 'primary',
   secondary = 'secondary',
+}
+
+export interface SvgIconSettings {
+  [key: string]: string | number;
 }
 
 export interface SvgIconProps {
@@ -13,8 +17,8 @@ export interface SvgIconProps {
   title?: string;
   stroked?: boolean;
   filled?: boolean;
-  color?: SvgIconColor;
-  iconSettings?: { [key: string]: any };
+  color?: SvgIconColors;
+  iconSettings?: SvgIconSettings;
 }
 
 const SvgIcon: React.FC<SvgIconProps> = ({

@@ -26,8 +26,13 @@ $lg-colors-tree = {
   
   &__text {
     font-size: $font-size-large;
-    font-style: italic;
     font-weight: 800;
+  }
+
+  &--theme_italic {
+    & ^[0]__text {
+      font-style: italic;
+    }
   }
 
   // colors

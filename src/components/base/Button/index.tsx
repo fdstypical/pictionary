@@ -1,5 +1,7 @@
 import React from 'react';
+
 import SvgIcon from '@/components/SvgIcon';
+import { IDictionary } from '@/typings';
 import './style.styl';
 
 export enum ButtonThemes {
@@ -28,10 +30,6 @@ export enum ButtonShapes {
   circle = 'circle',
 }
 
-export interface ButtonIconSettings {
-  [key: string]: any;
-}
-
 export interface ButtonProps {
   title?: string;
   theme?: ButtonThemes;
@@ -43,7 +41,7 @@ export interface ButtonProps {
   wide?: boolean;
   dense?: boolean;
   disabled?: boolean;
-  iconSettings?: ButtonIconSettings;
+  iconSettings?: IDictionary<any>;
   onClick?: () => void;
 }
 

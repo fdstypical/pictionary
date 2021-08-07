@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+
+import { IDictionary } from '@/typings';
 import './style.styl';
 
 export enum SvgIconColors {
@@ -8,17 +10,13 @@ export enum SvgIconColors {
   secondary = 'secondary',
 }
 
-export interface SvgIconSettings {
-  [key: string]: string | number;
-}
-
 export interface SvgIconProps {
   name: string;
   title?: string;
   stroked?: boolean;
   filled?: boolean;
   color?: SvgIconColors;
-  iconSettings?: SvgIconSettings;
+  iconSettings?: IDictionary<string | number>;
 }
 
 const SvgIcon: React.FC<SvgIconProps> = ({

@@ -3,8 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 
 import Header from '@/components/Header';
 import Logo, { LogoColors, LogoThemes } from '@/components/Logo';
-import Sidebar from '@/components/Sidebar';
-import Button, { ButtonColors, ButtonThemes } from '@/components/Button';
+import Sidebar from '@/components/blocks/Sidebar';
+import Button, { ButtonColors, ButtonThemes } from '@/components/base/Button';
 
 import Main from '@/views/Main';
 import './style.styl';

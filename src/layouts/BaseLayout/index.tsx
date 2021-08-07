@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import Header from '@/components/Header';
 import Logo, { LogoColors, LogoThemes } from '@/components/Logo';
-import Sidebar from '@/components/blocks/Sidebar';
 import Button, { ButtonColors, ButtonThemes } from '@/components/base/Button';
-
+import Sidebar from '@/components/blocks/Sidebar';
 import Main from '@/views/Main';
+
+import { StoresI } from '@/stores';
+import { watch } from '@/utils/common/mobx';
 import './style.styl';
 
-const BaseLayout: React.FC = () => {
-  const [showSidebar, openSidebar] = useState<boolean>(true);
+type BaseLayoutProps = StoresI;
+
+const BaseLayout: React.FC<BaseLayoutProps> = ({ app }) => {
   const classNames = `base-layout base-layout--sidebar_${
-    showSidebar ? 'open' : 'hidden'
+    app.sidebar ? 'open' : 'hidden'
   }`;
+
+  const toggleSidebar = () => {
+    app.toggleSidebar();
+  };
 
   return (
     <div className={classNames}>
@@ -29,14 +36,14 @@ const BaseLayout: React.FC = () => {
           end={
             <Button
               dense
-              icon={showSidebar ? 'close' : 'menu'}
+              icon={app.sidebar ? 'close' : 'menu'}
               theme={ButtonThemes.plain}
               color={ButtonColors.secondary}
               iconSettings={{
                 stroked: true,
                 iconSettings: { strokeWidth: 3 },
               }}
-              onClick={() => openSidebar((prev) => !prev)}
+              onClick={toggleSidebar}
             />
           }
         />
@@ -57,4 +64,4 @@ const BaseLayout: React.FC = () => {
   );
 };
 
-export default BaseLayout;
+export default watch(BaseLayout, 'app');

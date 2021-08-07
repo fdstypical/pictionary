@@ -14,6 +14,7 @@ async function webpackPrestart(env, { mode }) {
     optimization: optimization[mode],
     devServer,
     target: mode === 'development' ? 'web' : 'browserslist',
+    devtool: 'source-map',
   };
 }
 

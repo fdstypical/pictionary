@@ -1,14 +1,41 @@
 @require '~@/assets/stylus/vars/variables';
 @require '~@/assets/stylus/vars/colors';
 
+$lg-colors-light = {
+  base: $theme-light.base,
+}
+$lg-colors-dark = {
+  base: $theme-dark.base,
+}
+$lg-colors-primary = {
+  base: $theme-primary.base,
+}
+$lg-colors-secondary = {
+  base: $theme-secondary.base,
+}
+$lg-colors-tree = {
+  light: $lg-colors-light,
+  dark: $lg-colors-dark,
+  primary: $lg-colors-primary,
+  secondary: $lg-colors-secondary,
+};
+
 .base-logo {
   text-decoration: none;
   cursor: pointer;
   
   &__text {
     font-size: $font-size-large;
-    color: $color-blue.base;
     font-style: italic;
     font-weight: 800;
+  }
+
+  // colors
+  for $key, $scheme in $lg-colors-tree {
+    &--color_{$key}& {
+      & ^[0]__text {
+        color: $scheme.base;
+      }
+    }
   }
 }

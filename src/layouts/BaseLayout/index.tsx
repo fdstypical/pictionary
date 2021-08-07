@@ -11,9 +11,12 @@ import './style.styl';
 
 const BaseLayout: React.FC = () => {
   const [showSidebar, openSidebar] = useState<boolean>(true);
+  const classNames = `base-layout base-layout--sidebar_${
+    showSidebar ? 'open' : 'hidden'
+  }`;
 
   return (
-    <div className="base-layout">
+    <div className={classNames}>
       <div className="base-layout__layout">
         <Header
           start={
@@ -47,10 +50,7 @@ const BaseLayout: React.FC = () => {
         </main>
       </div>
 
-      <div
-        className="base-layout__sidebar"
-        style={{ width: showSidebar ? '450px' : '0px' }}
-      >
+      <div className="base-layout__sidebar">
         <Sidebar />
       </div>
     </div>

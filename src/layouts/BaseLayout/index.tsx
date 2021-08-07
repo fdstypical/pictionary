@@ -10,7 +10,7 @@ import Main from '@/views/Main';
 import './style.styl';
 
 const BaseLayout: React.FC = () => {
-  const [showSidebar, openSidebar] = useState<boolean>(false);
+  const [showSidebar, openSidebar] = useState<boolean>(true);
 
   return (
     <div className="base-layout">
@@ -49,7 +49,7 @@ const BaseLayout: React.FC = () => {
 
       <div
         className="base-layout__sidebar"
-        style={{ width: showSidebar ? '360px' : '0px' }}
+        style={{ width: showSidebar ? '450px' : '0px' }}
       >
         <Sidebar />
       </div>

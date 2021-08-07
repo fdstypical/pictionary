@@ -20,7 +20,7 @@ const Canvas: React.FC = () => {
     <div className="base-canvas">
       <canvas
         ref={canvas}
-        width={width - 400}
+        width={width - 420}
         height={height - 150}
         className="base-canvas__canvas"
       ></canvas>

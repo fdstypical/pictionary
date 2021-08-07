@@ -7,7 +7,7 @@ import BaseLayout from '@/layouts/BaseLayout';
 const App: React.FC = () => (
   <Router>
     <Switch>
-      <Route exact path="/" component={BaseLayout} />
+      <Route path="/" component={BaseLayout} />
     </Switch>
   </Router>
 );

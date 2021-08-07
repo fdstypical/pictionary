@@ -1,0 +1,201 @@
+@require '~@/assets/stylus/vars/variables';
+@require '~@/assets/stylus/mixins/mixins';
+@require '~@/assets/stylus/mixins/buttons';
+
+$bb-colors-light = {
+  base: $theme-light.base,
+  base-text: $theme-light.contrast,
+}
+$bb-colors-dark = {
+  base: $theme-dark.base,
+  base-text: $theme-dark.contrast,
+}
+$bb-colors-primary = {
+  base: $theme-primary.base,
+  base-text: $theme-primary.contrast,
+}
+$bb-colors-secondary = {
+  base: $theme-secondary.base,
+  base-text: $theme-secondary.contrast,
+}
+
+$bb-colors-tree = {
+  light: $bb-colors-light,
+  dark: $bb-colors-dark,
+  primary: $bb-colors-primary,
+  secondary: $bb-colors-secondary,
+};
+$bb-themes = {
+  default: generate-default,
+  outline: generate-outline,
+  plain: generate-plain,
+}
+
+$bb-size-default = {
+  text: $font-size-medium-s,
+  height: 26px,
+  border: 1px,
+  padding: {
+    x: 32px,
+    y: 16px
+  }
+}
+$bb-size-small = {
+  text: $font-size-base,
+  height: 20px,
+  border: 1px,
+  padding: {
+    x: 20px,
+    y: 10px
+  }
+}
+$bb-size-big = {
+  text: $font-size-medium,
+  height: 40px,
+  border: 1px,
+  padding: {
+    x: 32px,
+    y: 8px
+  }
+}
+$bb-size-large = {
+  text: $font-size-big,
+  height: 60px,
+  border: 1px,
+  padding: {
+    x: 32px,
+    y: 8px
+  }
+}
+$bb-sizes-tree = {
+  default: $bb-size-default,
+  small: $bb-size-small,
+  big: $bb-size-big,
+  large: $bb-size-large,
+}
+
+
+.base-button {
+  position: relative;
+  display: inline-block;
+  box-shadow: none;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: $border-radius-small;
+  font-family: $font-base;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+
+  &:hover,
+  &:focus,
+  &:active {
+    outline: none;
+  }
+
+  &.wide {
+    width: 100%;
+  }
+
+  &--shape_square {
+    border-radius: 0;
+  }
+  &--shape_rounded {
+    border-radius: $border-radius-small;
+  }
+  &--shape_circle {
+    border-radius: 50%;
+  }
+
+  &__icon {
+    pointer-events: none;
+    transition: inherit;
+  }
+
+  &__inner {
+    flexy(center, center);
+    pointer-events: none;
+
+    ^[0].reverse & {
+      flex-direction: row-reverse;
+    }
+  }
+
+  &__icon {
+    flexy(center, center);
+  }
+
+  &__text {
+    font-weight: 500;
+    pointer-events: none;
+    transition: none;
+
+    ^[0]__icon + & {
+      margin-left: 6px;
+
+      ^[0].reverse & {
+        margin-left: 0
+        margin-right: 6px;
+      }
+    }
+  }
+
+  // themes & colors
+  for $theme, $mixin in $bb-themes {
+    &--theme_{$theme} {
+      for $key, $scheme in $bb-colors-tree {
+        ^[0]--color_{$key}& {
+          $mixin($scheme, $key)
+        }
+      }
+    }
+  }
+
+  // sizes & shapes
+  for $key, $size in $bb-sizes-tree {
+    &--size_{$key} {
+      $total = $size.height + $size.border * 2 + $size.padding.y * 2;
+      $total-dense = $size.height + $size.border * 2 + $size.padding.y;
+
+      min-size($total);
+      border-width: $size.border;
+      padding: $size.padding.y $size.padding.x;
+
+      &.dense {
+        min-size($total-dense);
+        padding: ($size.padding.y / 2) ($size.padding.x / 2);
+      }
+
+      ^[0]--shape_circle& {
+        border-radius: ($total / 2);
+      }
+
+      & ^[0]__text {
+        font-size: $size.text;
+        line-height: $size.height;
+      }
+
+      & ^[0]__icon {
+        font-size: $size.text;
+      }
+
+      &.only-icon {
+        padding: $size.padding.y;
+
+        &.dense {
+          padding: ($size.padding.y / 2);
+        }
+
+        & ^[0]__icon {
+          font-size: $size.height;
+        }
+      }
+    }
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+}

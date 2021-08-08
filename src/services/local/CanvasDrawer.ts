@@ -3,6 +3,7 @@ import { LineWidths, PositionI, IDrawerStyles } from '@/typings';
 class CanvasDrawer {
   private pos: PositionI;
   private ctx: CanvasRenderingContext2D;
+  private leftMouseBtn: number = 1; // left mouse button code (0 - not pressed, 1 - left, 2 - rigth)
 
   constructor(
     private canvas: HTMLCanvasElement,
@@ -20,7 +21,7 @@ class CanvasDrawer {
   }
 
   private draw(event: MouseEvent): void {
-    if (event.buttons !== 1) return;
+    if (event.buttons !== this.leftMouseBtn) return;
 
     this.ctx.beginPath();
 
@@ -70,15 +71,15 @@ class CanvasDrawer {
   }
 
   private setListeners(): void {
-    this.canvas.addEventListener('mousemove', this.draw);
-    this.canvas.addEventListener('mousedown', this.setPosition);
-    this.canvas.addEventListener('mouseenter', this.setPosition);
+    document.addEventListener('mousemove', this.draw);
+    document.addEventListener('mousedown', this.setPosition);
+    document.addEventListener('mouseenter', this.setPosition);
   }
 
   private removeListeners(): void {
-    this.canvas.removeEventListener('mousemove', this.draw);
-    this.canvas.removeEventListener('mousedown', this.setPosition);
-    this.canvas.removeEventListener('mouseenter', this.setPosition);
+    document.removeEventListener('mousemove', this.draw);
+    document.removeEventListener('mousedown', this.setPosition);
+    document.removeEventListener('mouseenter', this.setPosition);
   }
 
   public setSizes(): void {

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import './style.styl';
 
-import CanvasService from '@/services/local/CanvasService';
+import CanvasDrawer from '@/services/local/CanvasDrawer';
 
 const Canvas: React.FC = () => {
   const canvas = useRef<HTMLCanvasElement>(null);
@@ -10,7 +10,7 @@ const Canvas: React.FC = () => {
     const cnv = canvas.current;
 
     if (cnv) {
-      new CanvasService(cnv);
+      const drawer = new CanvasDrawer(cnv);
     }
   }, []);
 

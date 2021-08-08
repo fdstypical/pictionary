@@ -12,3 +12,8 @@ export interface IScreen {
   height: number;
   orientation: Orientations;
 }
+
+export interface PositionI {
+  x: number;
+  y: number;
+}

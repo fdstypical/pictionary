@@ -24,21 +24,7 @@
 
   &__sidebar {
     height: 100%;
-    transition-duration: 0.3s;
-    transition-timing-function: ease;
-    transition-property: min-width, max-width;
-  }
-
-  &--sidebar_open {
-    & ^[0]__sidebar {
-      min-size(400px, 100%);
-      max-size(400px, 100%);
-    }
-  }
-  &--sidebar_hidden {
-    & ^[0]__sidebar {
-      min-size(0px, 100%);
-      max-size(0px, 100%);
-    }
+    min-size(400px, 100%);
+    max-size(400px, 100%);
   }
 }

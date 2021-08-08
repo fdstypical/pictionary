@@ -1,0 +1,26 @@
+@require '~@/assets/stylus/mixins/mixins';
+
+.color-btn {
+  box-shadow: none;
+  text-decoration: none;
+  border: 2px solid transparent;
+  padding: 2px;
+  background: transparent;
+  circle(30px);
+  cursor: pointer;
+
+  &__inner {
+    circle(100%);
+    border: 1px solid currentColor;
+  }
+
+  &--active {
+    border-color: #000;
+  }
+
+  &.border {
+    & ^[0]__inner {
+      border-color: #d9d9d9;
+    }
+  }
+}

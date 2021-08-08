@@ -19,7 +19,7 @@ class CanvasDrawer {
     this.pos.y = event.clientY - this.canvas.offsetTop;
   }
 
-  private draw(event: MouseEvent) {
+  private draw(event: MouseEvent): void {
     if (event.buttons !== 1) return;
 
     this.ctx.beginPath();

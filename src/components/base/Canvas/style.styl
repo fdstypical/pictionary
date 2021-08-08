@@ -8,8 +8,19 @@
   box-shadow rgba(0, 0, 0, 0.2) 0px 3px 30px -2px,
     rgba(0, 0, 0, 0.14) 0px 3px 4px 0px,
     rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
-  
+  flexy(center, center);
+
+  &__wrapper {
+    size(100%);
+  }
+
   &__canvas {
     size(100%);
+  }
+
+  &__action-bar {
+    height: 100%;
+    min-size(60px, 100%);
+    max-size(60px, 100%);
   }
 }

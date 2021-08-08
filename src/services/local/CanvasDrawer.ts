@@ -53,6 +53,10 @@ class CanvasDrawer {
     return context;
   }
 
+  clearCanvas(): void {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
   remove(): void {
     this.canvas.removeEventListener('mousemove', this.draw);
     this.canvas.removeEventListener('mousedown', this.setPosition);

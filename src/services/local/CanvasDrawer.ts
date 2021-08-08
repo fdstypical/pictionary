@@ -37,26 +37,6 @@ class CanvasDrawer {
     this.ctx.closePath();
   }
 
-  private drawPoint(event: MouseEvent): void {
-    if (event.target !== this.canvas) return;
-
-    this.ctx.arc(
-      this.pos.x,
-      this.pos.y,
-      this.styles.lineWidth / 2,
-      0,
-      2 * Math.PI,
-    );
-
-    this.ctx.fill();
-    this.ctx.closePath();
-  }
-
-  private startDrawing(event: MouseEvent): void {
-    this.setPosition(event);
-    this.drawPoint(event);
-  }
-
   public setColor(color: string): void {
     this.styles.color = color;
   }
@@ -79,7 +59,7 @@ class CanvasDrawer {
 
     // bind methods on context;
     this.draw = this.draw.bind(this);
-    this.startDrawing = this.startDrawing.bind(this);
+    this.setPosition = this.setPosition.bind(this);
 
     this.setListeners();
   }
@@ -95,12 +75,12 @@ class CanvasDrawer {
 
   private setListeners(): void {
     document.addEventListener('mousemove', this.draw);
-    document.addEventListener('mousedown', this.startDrawing);
+    document.addEventListener('mousedown', this.setPosition);
   }
 
   private removeListeners(): void {
     document.removeEventListener('mousemove', this.draw);
-    document.removeEventListener('mousedown', this.startDrawing);
+    document.removeEventListener('mousedown', this.setPosition);
   }
 
   public setSizes(): void {

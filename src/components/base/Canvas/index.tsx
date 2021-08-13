@@ -15,6 +15,9 @@ const Canvas: React.FC = () => {
 
     if (cnv) {
       const drawer = new CanvasDrawer(cnv, new DrawerStyles());
+      const canvasO = new ResizeObserver((entries) => drawer.setSizes(entries));
+      canvasO.observe(cnv);
+
       setDriver(drawer);
     }
 

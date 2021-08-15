@@ -1,10 +1,11 @@
-import { LineCaps, LineWidths, IDrawerStyles } from '@/typings';
+import { LineCaps, LineJoins, IDrawerStyles } from '@/typings';
 
-export default class DrawerColors implements IDrawerStyles {
+export default class DrawerStyles implements IDrawerStyles {
   constructor(
     private _color: string = '#000',
-    private _lineWidth: LineWidths = LineWidths.small,
+    private _lineWidth: number = 15,
     private _lineCap: LineCaps = LineCaps.round,
+    private _lineJoin: LineJoins = LineJoins.round,
   ) {}
 
   get color(): string {
@@ -14,10 +15,10 @@ export default class DrawerColors implements IDrawerStyles {
     this._color = value;
   }
 
-  get lineWidth(): LineWidths {
+  get lineWidth(): number {
     return this._lineWidth;
   }
-  set lineWidth(value: LineWidths) {
+  set lineWidth(value: number) {
     this._lineWidth = value;
   }
 
@@ -26,5 +27,12 @@ export default class DrawerColors implements IDrawerStyles {
   }
   set lineCap(value: LineCaps) {
     this._lineCap = value;
+  }
+
+  get lineJoin(): LineJoins {
+    return this._lineJoin;
+  }
+  set lineJoin(value: LineJoins) {
+    this._lineJoin = value;
   }
 }

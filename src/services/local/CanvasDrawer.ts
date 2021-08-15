@@ -1,6 +1,6 @@
-import { LineWidths, PositionI, IDrawerStyles } from '@/typings';
-import LazyBrush from '@/models/LazyBrush';
+import { IDrawerStyles } from '@/typings';
 import { IPoint } from '@/models/Point';
+import LazyBrush from '@/models/LazyBrush';
 
 function midPointBtw(p1: IPoint, p2: IPoint) {
   return {
@@ -10,40 +10,36 @@ function midPointBtw(p1: IPoint, p2: IPoint) {
 }
 
 class CanvasDrawer {
-  private pos: PositionI;
   private ctx: CanvasRenderingContext2D;
-  private leftMouseBtn: number = 1; // left mouse button code (0 - not pressed, 1 - left, 2 - rigth)
   private points: IPoint[];
-  isDrawing: boolean;
-  isPressing: boolean;
-  brushRadius: number;
-  lazy: LazyBrush;
+  private isDrawing: boolean;
+  private isPressing: boolean;
+  private lazy: LazyBrush;
 
   constructor(
     private canvas: HTMLCanvasElement,
     private styles: IDrawerStyles,
   ) {
     this.ctx = this.getContext(this.canvas);
-    this.pos = { x: 0, y: 0 };
+    this.lazy = new LazyBrush();
 
-    this.lazy = new LazyBrush(20, true, { x: 0, y: 0 });
     this.points = [];
-
     this.isDrawing = false;
     this.isPressing = false;
 
-    this.brushRadius = 10;
-
     this.init();
+
+    console.log(this.lazy.getRadius(), this.styles.lineWidth);
   }
 
-  handlePointerDown(e: MouseEvent) {
-    e.preventDefault();
+  // drawing
+  private handlePointerDown(event: MouseEvent) {
+    event.preventDefault();
     this.isPressing = true;
   }
 
-  handlePointerUp(e: MouseEvent) {
-    e.preventDefault();
+  private handlePointerUp(event: MouseEvent) {
+    event.preventDefault();
     this.isDrawing = false;
     this.isPressing = false;
     this.points.length = 0;
@@ -51,13 +47,14 @@ class CanvasDrawer {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  handlePointerMove(x: number, y: number) {
+  private handlePointerMove(x: number, y: number) {
     const hasChanged = this.lazy.update({ x: x, y: y });
     const isDisabled = !this.lazy.isEnabled();
 
-    this.ctx.lineJoin = 'round';
-    this.ctx.lineCap = 'round';
-    this.ctx.strokeStyle = '#000';
+    this.ctx.lineJoin = this.styles.lineJoin;
+    this.ctx.lineCap = this.styles.lineCap;
+    this.ctx.lineWidth = this.styles.lineWidth;
+    this.ctx.strokeStyle = this.styles.color;
 
     if (
       (this.isPressing && hasChanged && !this.isDrawing) ||
@@ -69,7 +66,6 @@ class CanvasDrawer {
 
     if (this.isDrawing && (this.lazy.brushHasMoved() || isDisabled)) {
       this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-      this.ctx.lineWidth = this.brushRadius * 2;
       this.points.push(this.lazy.brush.toObject());
 
       var p1 = this.points[0];
@@ -90,35 +86,21 @@ class CanvasDrawer {
     }
   }
 
-  // drawing
-  private setPosition(event: MouseEvent): void {
-    this.pos.x = event.clientX - this.canvas.offsetLeft;
-    this.pos.y = event.clientY - this.canvas.offsetTop;
+  private normalizeCoordinates(event: MouseEvent): void {
+    const { clientX: x, clientY: y } = event;
+    const { offsetLeft: canvasX, offsetTop: canvasY } = this.canvas;
+
+    this.handlePointerMove(x - canvasX, y - canvasY);
   }
 
-  private draw(event: MouseEvent): void {
-    if (event.buttons !== this.leftMouseBtn) return;
-
-    this.ctx.beginPath();
-
-    this.ctx.lineWidth = this.styles.lineWidth;
-    this.ctx.lineCap = this.styles.lineCap;
-    this.ctx.strokeStyle = this.styles.color;
-
-    this.ctx.moveTo(this.pos.x, this.pos.y);
-    this.setPosition(event);
-    this.ctx.lineTo(this.pos.x, this.pos.y);
-
-    this.ctx.stroke();
-    this.ctx.closePath();
-  }
-
+  // public methods
   public setColor(color: string): void {
     this.styles.color = color;
   }
 
-  public setLineWidth(lineWidth: LineWidths): void {
+  public setLineWidth(lineWidth: number): void {
     this.styles.lineWidth = lineWidth;
+    this.lazy.setRadius(lineWidth);
   }
 
   public clearCanvas(): void {
@@ -131,11 +113,13 @@ class CanvasDrawer {
 
   // initialization
   private init(): void {
-    // bind methods on context;
-    this.draw = this.draw.bind(this);
-    this.setPosition = this.setPosition.bind(this);
+    // bind handlers on instance context;
+    this.handlePointerDown = this.handlePointerDown.bind(this);
+    this.handlePointerUp = this.handlePointerUp.bind(this);
+    this.normalizeCoordinates = this.normalizeCoordinates.bind(this);
 
     this.setListeners();
+    this.setSizes();
   }
 
   private getContext(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
@@ -148,41 +132,22 @@ class CanvasDrawer {
   }
 
   private setListeners(): void {
-    this.canvas.addEventListener(
-      'mousedown',
-      this.handlePointerDown.bind(this),
-    );
-    this.canvas.addEventListener('mouseup', this.handlePointerUp.bind(this));
-    this.canvas.addEventListener('mousemove', (e) =>
-      this.handlePointerMove(
-        e.clientX - this.canvas.offsetLeft,
-        e.clientY - this.canvas.offsetTop,
-      ),
-    );
+    this.canvas.addEventListener('mousedown', this.handlePointerDown);
+    this.canvas.addEventListener('mouseup', this.handlePointerUp);
+    this.canvas.addEventListener('mousemove', this.normalizeCoordinates);
   }
 
   private removeListeners(): void {
-    // document.removeEventListener('mousemove', this.draw);
-    // document.removeEventListener('mousedown', this.setPosition);
+    this.canvas.removeEventListener('mousedown', this.handlePointerDown);
+    this.canvas.removeEventListener('mouseup', this.handlePointerUp);
+    this.canvas.removeEventListener('mousemove', this.normalizeCoordinates);
   }
 
-  public setSizes(entries: ResizeObserverEntry[]): void {
-    const MAX_DPI = 1;
-    let dpi = window.devicePixelRatio;
+  public setSizes(): void {
+    const { offsetWidth, offsetHeight } = this.canvas;
 
-    if (window.innerWidth > 1024) {
-      dpi = Math.min(dpi, MAX_DPI);
-    }
-
-    for (const entry of entries) {
-      const { width, height } = entry.contentRect;
-
-      this.canvas.width = width * dpi;
-      this.canvas.height = height * dpi;
-      this.canvas.style.width = `${width}px`;
-      this.canvas.style.height = `${height}px`;
-      this.canvas.getContext('2d')?.scale(dpi, dpi);
-    }
+    this.canvas.width = offsetWidth;
+    this.canvas.height = offsetHeight;
   }
 }
 

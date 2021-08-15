@@ -13,27 +13,21 @@ export interface IScreen {
   orientation: Orientations;
 }
 
-export interface PositionI {
-  x: number;
-  y: number;
-}
-
-export enum LineWidths {
-  small = 5,
-  medium = 10,
-  big = 15,
-  large = 20,
-  largest = 25,
-}
-
 export enum LineCaps {
   butt = 'butt',
   round = 'round',
   square = 'square',
 }
 
+export enum LineJoins {
+  bevel = 'bevel',
+  round = 'round',
+  miter = 'miter',
+}
+
 export interface IDrawerStyles {
   color: string;
+  lineWidth: number;
   lineCap: LineCaps;
-  lineWidth: LineWidths;
+  lineJoin: LineJoins;
 }

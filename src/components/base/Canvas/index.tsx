@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './style.styl';
 
-import { LineWidths } from '@/typings';
 import CanvasDrawer from '@/services/local/CanvasDrawer';
 import DrawerStyles from '@/services/local/DrawerStyles';
 import ActionBar from '@/components/blocks/ActionBar';
@@ -15,9 +14,6 @@ const Canvas: React.FC = () => {
 
     if (cnv) {
       const drawer = new CanvasDrawer(cnv, new DrawerStyles());
-      const canvasO = new ResizeObserver((entries) => drawer.setSizes(entries));
-      canvasO.observe(cnv);
-
       setDriver(drawer);
     }
 
@@ -28,7 +24,7 @@ const Canvas: React.FC = () => {
 
   const changeColor = (color: string) => drawer?.setColor(color);
 
-  const chnageLineWidth = (lineWidth: LineWidths) =>
+  const chnageLineWidth = (lineWidth: number) =>
     drawer?.setLineWidth(lineWidth);
 
   return (

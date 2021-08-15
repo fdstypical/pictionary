@@ -1,30 +1,25 @@
 import Point, { IPoint } from '@/models/Point';
 import LazyPoint from '@/models/LazyPoint';
 
-export const RADIUS_DEFAULT = 30;
+export const RADIUS_DEFAULT = 15;
 
 export default class LazyBrush {
   private _hasMoved: boolean;
-  private _isEnabled: boolean;
-  private radius: number;
+  private _angle: number;
+  private _distance: number;
   public pointer: LazyPoint;
   public brush: LazyPoint;
-  public angle: number;
-  public distance: number;
 
   constructor(
-    radius: number = RADIUS_DEFAULT,
-    enabled: boolean = true,
+    private _radius: number = RADIUS_DEFAULT,
+    private _isEnabled: boolean = true,
     initialPoint: IPoint = { x: 0, y: 0 },
   ) {
-    this.radius = radius;
-    this._isEnabled = enabled;
-
     this.pointer = new LazyPoint(initialPoint.x, initialPoint.y);
     this.brush = new LazyPoint(initialPoint.x, initialPoint.y);
 
-    this.angle = 0;
-    this.distance = 0;
+    this._angle = 0;
+    this._distance = 0;
     this._hasMoved = false;
   }
 
@@ -41,11 +36,11 @@ export default class LazyBrush {
   }
 
   public setRadius(radius: number): void {
-    this.radius = radius;
+    this._radius = radius;
   }
 
   public getRadius(): number {
-    return this.radius;
+    return this._radius;
   }
 
   public getBrushCoordinates(): IPoint {
@@ -56,20 +51,12 @@ export default class LazyBrush {
     return this.pointer.toObject();
   }
 
-  public getBrush(): LazyPoint {
-    return this.brush;
-  }
-
-  public getPointer(): LazyPoint {
-    return this.pointer;
-  }
-
   public getAngle(): number {
-    return this.angle;
+    return this._angle;
   }
 
   public getDistance(): number {
-    return this.distance;
+    return this._distance;
   }
 
   public brushHasMoved(): boolean {
@@ -91,16 +78,16 @@ export default class LazyBrush {
     }
 
     if (this._isEnabled) {
-      this.distance = this.pointer.getDistanceTo(this.brush);
-      this.angle = this.pointer.getAngleTo(this.brush);
+      this._distance = this.pointer.getDistanceTo(this.brush);
+      this._angle = this.pointer.getAngleTo(this.brush);
 
-      if (this.distance > this.radius) {
-        this.brush.moveByAngle(this.angle, this.distance - this.radius);
+      if (this._distance > this._radius) {
+        this.brush.moveByAngle(this._angle, this._distance - this._radius);
         this._hasMoved = true;
       }
     } else {
-      this.distance = 0;
-      this.angle = 0;
+      this._distance = 0;
+      this._angle = 0;
       this.brush.update(newPointerPoint);
       this._hasMoved = true;
     }

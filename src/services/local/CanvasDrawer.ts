@@ -26,7 +26,7 @@ class CanvasDrawer {
     this.ctx = this.getContext(this.canvas);
     this.pos = { x: 0, y: 0 };
 
-    this.lazy = new LazyBrush(20, { x: 0, y: 0 });
+    this.lazy = new LazyBrush(20, true, { x: 0, y: 0 });
     this.points = [];
 
     this.isDrawing = false;
@@ -53,17 +53,21 @@ class CanvasDrawer {
 
   handlePointerMove(x: number, y: number) {
     const hasChanged = this.lazy.update({ x: x, y: y });
+    const isDisabled = !this.lazy.isEnabled();
 
     this.ctx.lineJoin = 'round';
     this.ctx.lineCap = 'round';
     this.ctx.strokeStyle = '#000';
 
-    if ((this.isPressing && hasChanged && !this.isDrawing) || this.isPressing) {
+    if (
+      (this.isPressing && hasChanged && !this.isDrawing) ||
+      (this.isPressing && isDisabled)
+    ) {
       this.isDrawing = true;
       this.points.push(this.lazy.brush.toObject());
     }
 
-    if (this.isDrawing && this.lazy.brushHasMoved()) {
+    if (this.isDrawing && (this.lazy.brushHasMoved() || isDisabled)) {
       this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
       this.ctx.lineWidth = this.brushRadius * 2;
       this.points.push(this.lazy.brush.toObject());

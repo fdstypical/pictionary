@@ -5,6 +5,7 @@ export const RADIUS_DEFAULT = 30;
 
 export default class LazyBrush {
   private _hasMoved: boolean;
+  private _isEnabled: boolean;
   private radius: number;
   public pointer: LazyPoint;
   public brush: LazyPoint;
@@ -13,9 +14,11 @@ export default class LazyBrush {
 
   constructor(
     radius: number = RADIUS_DEFAULT,
+    enabled: boolean = true,
     initialPoint: IPoint = { x: 0, y: 0 },
   ) {
     this.radius = radius;
+    this._isEnabled = enabled;
 
     this.pointer = new LazyPoint(initialPoint.x, initialPoint.y);
     this.brush = new LazyPoint(initialPoint.x, initialPoint.y);
@@ -23,6 +26,18 @@ export default class LazyBrush {
     this.angle = 0;
     this.distance = 0;
     this._hasMoved = false;
+  }
+
+  public enable(): void {
+    this._isEnabled = true;
+  }
+
+  public disable(): void {
+    this._isEnabled = false;
+  }
+
+  public isEnabled(): boolean {
+    return this._isEnabled;
   }
 
   public setRadius(radius: number): void {
@@ -75,11 +90,18 @@ export default class LazyBrush {
       return true;
     }
 
-    this.distance = this.pointer.getDistanceTo(this.brush);
-    this.angle = this.pointer.getAngleTo(this.brush);
+    if (this._isEnabled) {
+      this.distance = this.pointer.getDistanceTo(this.brush);
+      this.angle = this.pointer.getAngleTo(this.brush);
 
-    if (this.distance > this.radius) {
-      this.brush.moveByAngle(this.angle, this.distance - this.radius);
+      if (this.distance > this.radius) {
+        this.brush.moveByAngle(this.angle, this.distance - this.radius);
+        this._hasMoved = true;
+      }
+    } else {
+      this.distance = 0;
+      this.angle = 0;
+      this.brush.update(newPointerPoint);
       this._hasMoved = true;
     }
 

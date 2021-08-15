@@ -7,6 +7,7 @@ import ActionBar from '@/components/blocks/ActionBar';
 
 const Canvas: React.FC = () => {
   const [drawer, setDriver] = useState<CanvasDrawer>();
+  const wrapper = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const Canvas: React.FC = () => {
     drawer?.setLineWidth(lineWidth);
 
   return (
-    <div className="base-canvas">
+    <div ref={wrapper} className="base-canvas">
       <div className="base-canvas__wrapper">
         <canvas ref={canvas} className="base-canvas__canvas"></canvas>
       </div>

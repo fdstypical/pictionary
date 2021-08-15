@@ -28,8 +28,6 @@ class CanvasDrawer {
     this.isPressing = false;
 
     this.init();
-
-    console.log(this.lazy.getRadius(), this.styles.lineWidth);
   }
 
   // drawing

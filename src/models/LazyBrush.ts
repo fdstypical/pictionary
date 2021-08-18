@@ -1,7 +1,7 @@
 import Point, { IPoint } from '@/models/Point';
 import LazyPoint from '@/models/LazyPoint';
 
-export const RADIUS_DEFAULT = 15;
+export const RADIUS_DEFAULT = 10;
 
 export default class LazyBrush {
   private _hasMoved: boolean;

@@ -91,6 +91,11 @@ class CanvasDrawer {
     this.handlePointerMove(x - canvasX, y - canvasY);
   }
 
+  // interface
+  private handleContextMenu(event: MouseEvent) {
+    event.preventDefault();
+  }
+
   // public methods
   public setColor(color: string): void {
     this.styles.color = color;
@@ -115,6 +120,7 @@ class CanvasDrawer {
     this.handlePointerDown = this.handlePointerDown.bind(this);
     this.handlePointerUp = this.handlePointerUp.bind(this);
     this.normalizeCoordinates = this.normalizeCoordinates.bind(this);
+    this.handleContextMenu = this.handleContextMenu.bind(this);
 
     this.setListeners();
     this.setSizes();
@@ -133,6 +139,7 @@ class CanvasDrawer {
     this.canvas.addEventListener('mousedown', this.handlePointerDown);
     this.canvas.addEventListener('mouseup', this.handlePointerUp);
     this.canvas.addEventListener('mousemove', this.normalizeCoordinates);
+    this.canvas.addEventListener('contextmenu', this.handleContextMenu);
   }
 
   private removeListeners(): void {

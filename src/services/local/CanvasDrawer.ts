@@ -31,12 +31,12 @@ class CanvasDrawer {
   }
 
   // drawing
-  private handlePointerDown(event: MouseEvent) {
+  private handlePointerDown(event: MouseEvent | TouchEvent) {
     event.preventDefault();
     this.isPressing = true;
   }
 
-  private handlePointerUp(event: MouseEvent) {
+  private handlePointerUp(event: MouseEvent | TouchEvent) {
     event.preventDefault();
     this.isDrawing = false;
     this.isPressing = false;
@@ -96,6 +96,28 @@ class CanvasDrawer {
     event.preventDefault();
   }
 
+  // touch
+  private handleTouchStart(event: TouchEvent) {
+    const { clientX: x, clientY: y } = event.changedTouches[0];
+    this.lazy.update({ x: x, y: y }, { both: true });
+
+    this.handlePointerDown(event);
+  }
+
+  private handleTouchMove(event: TouchEvent) {
+    const { clientX: x, clientY: y } = event.changedTouches[0];
+    const { offsetLeft: canvasX, offsetTop: canvasY } = this.canvas;
+
+    event.preventDefault();
+    this.handlePointerMove(x - canvasX, y - canvasY);
+  }
+
+  private handleTouchEnd(event: TouchEvent) {
+    this.handlePointerUp(event);
+    const brush = this.lazy.getBrushCoordinates();
+    this.lazy.update({ x: brush.x, y: brush.y }, { both: true });
+  }
+
   // public methods
   public setColor(color: string): void {
     this.styles.color = color;
@@ -122,6 +144,10 @@ class CanvasDrawer {
     this.normalizeCoordinates = this.normalizeCoordinates.bind(this);
     this.handleContextMenu = this.handleContextMenu.bind(this);
 
+    this.handleTouchStart = this.handleTouchStart.bind(this);
+    this.handleTouchMove = this.handleTouchMove.bind(this);
+    this.handleTouchEnd = this.handleTouchEnd.bind(this);
+
     this.setListeners();
     this.setSizes();
   }
@@ -136,16 +162,29 @@ class CanvasDrawer {
   }
 
   private setListeners(): void {
+    // mouse events
     this.canvas.addEventListener('mousedown', this.handlePointerDown);
     this.canvas.addEventListener('mouseup', this.handlePointerUp);
     this.canvas.addEventListener('mousemove', this.normalizeCoordinates);
     this.canvas.addEventListener('contextmenu', this.handleContextMenu);
+
+    // touch events
+    this.canvas.addEventListener('touchstart', this.handleTouchStart);
+    this.canvas.addEventListener('touchend', this.handleTouchEnd);
+    this.canvas.addEventListener('touchmove', this.handleTouchMove);
   }
 
   private removeListeners(): void {
+    // mouse events
     this.canvas.removeEventListener('mousedown', this.handlePointerDown);
     this.canvas.removeEventListener('mouseup', this.handlePointerUp);
     this.canvas.removeEventListener('mousemove', this.normalizeCoordinates);
+    this.canvas.removeEventListener('contextmenu', this.handleContextMenu);
+
+    // touch events
+    this.canvas.removeEventListener('touchstart', this.handleTouchStart);
+    this.canvas.removeEventListener('touchend', this.handleTouchEnd);
+    this.canvas.removeEventListener('touchmove', this.handleTouchMove);
   }
 
   public setSizes(): void {

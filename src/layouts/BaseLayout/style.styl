@@ -24,7 +24,16 @@
 
   &__sidebar {
     height: 100%;
-    min-size(400px, 100%);
-    max-size(400px, 100%);
+    transition: min-width 0.25s ease, max-width 0.25s ease;
+    
+    &--open {
+      min-size(400px, 100%);
+      max-size(400px, 100%);
+    }
+
+    &--hidden {
+      min-size(0px, 100%);
+      max-size(0px, 100%);
+    }
   }
 }

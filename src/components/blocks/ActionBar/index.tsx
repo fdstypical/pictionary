@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import ColorBtn from '@/components/base/ColorBtn';
 import Button, { ButtonShapes } from '@/components/base/Button';
+import Range, { RangeOrientations } from '@/components/base/Range';
 import './style.styl';
 
 export interface ActionBarProps {
@@ -55,7 +56,15 @@ const ActionBar: React.FC<ActionBarProps> = ({
         ))}
       </div>
 
-      <div className="action-bar__line-width"></div>
+      <div className="action-bar__line-width">
+        <Range
+          min={5}
+          max={50}
+          value={width}
+          orientation={RangeOrientations.vertical}
+          onChange={handleChangeWidth}
+        />
+      </div>
     </div>
   );
 };

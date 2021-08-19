@@ -1,0 +1,43 @@
+@require '~@/assets/stylus/vars/variables';
+@require '~@/assets/stylus/mixins/mixins';
+
+$br-orientation-vertical = {
+  width: 15px,
+  height: 120px,
+  rotation: -90deg,
+}
+$br-orientation-horizontal = {
+  width: 120px,
+  height: 15px,
+  rotation: 0deg,
+}
+
+$br-orientations-tree = {
+  vertical: $br-orientation-vertical,
+  horizontal: $br-orientation-horizontal 
+}
+
+.base-range {
+  flexy(center, center);
+
+  for $key, $scheme in $br-orientations-tree {
+    ^[0]--orientation_{$key} {
+      size($scheme.width, $scheme.height);
+    }
+  }
+
+  &__input {
+    for $key, $scheme in $br-orientations-tree {
+      ^[0]--orientation_{$key} & {
+        transform: rotate($scheme.rotation);
+
+        if $scheme.rotation is -90deg {
+          size($scheme.height, $scheme.width);
+        } 
+        if $scheme.rotation is 0deg  {
+          size($scheme.width, $scheme.height);
+        }
+      }
+    }
+  }
+}

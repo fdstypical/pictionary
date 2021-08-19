@@ -30,6 +30,36 @@ input {
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
   }
+
+  &[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    background: transparent;
+
+    &::-webkit-slider-runnable-track {
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      border-radius: 5% / 50%;
+      box-shadow: $base-shadow;
+      background-color: lighten($color-yellow.base, 20%);
+    }
+
+    &::-webkit-slider-thumb  {
+      -webkit-appearance: none;
+      width: 10px;
+      height: calc(100% + 5px);
+      transform: translate(0px, -10%);
+      margin: 0px;
+      border-radius: 15px;
+      box-shadow: $base-shadow;
+      background: lighten($color-blue.base, 5%);
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
 }
 
 svg[aria-hidden=true] {

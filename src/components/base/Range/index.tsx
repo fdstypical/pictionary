@@ -15,7 +15,14 @@ export interface RangeProps {
   onChange: (value: number) => void;
 }
 
-const Range: React.FC<RangeProps> = ({ max, min, value, step = 5, orientation = RangeOrientations.horizontal, onChange }) => {
+const Range: React.FC<RangeProps> = ({
+  max,
+  min,
+  value,
+  step = 5,
+  orientation = RangeOrientations.horizontal,
+  onChange,
+}) => {
   const classNames = `base-range base-range--orientation_${orientation}`;
 
   return (

@@ -39,7 +39,13 @@ class CanvasDrawer {
     this.isPressing = false;
     this.points.length = 0;
 
-    this.contexts.template.drawImage(this.canvases.drawer, 0, 0, this.canvases.template.width, this.canvases.template.height);
+    this.contexts.template.drawImage(
+      this.canvases.drawer,
+      0,
+      0,
+      this.canvases.template.width,
+      this.canvases.template.height,
+    );
     this.contexts.drawer.clearRect(0, 0, this.canvases.drawer.width, this.canvases.drawer.height);
   }
 

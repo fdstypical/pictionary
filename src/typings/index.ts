@@ -31,3 +31,13 @@ export interface IDrawerStyles {
   lineCap: LineCaps;
   lineJoin: LineJoins;
 }
+
+export interface ICanvasList {
+  drawer: HTMLCanvasElement;
+  template: HTMLCanvasElement;
+}
+
+export interface IContextsList {
+  drawer: CanvasRenderingContext2D;
+  template: CanvasRenderingContext2D;
+}

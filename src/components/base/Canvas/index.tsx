@@ -5,19 +5,25 @@ import CanvasDrawer from '@/services/local/CanvasDrawer';
 import DrawerStyles from '@/services/local/DrawerStyles';
 import ActionBar from '@/components/blocks/ActionBar';
 import useResize from '@/utils/hooks/useResize';
+import { ICanvasList } from '@/typings';
 
 const SIDEBAR_WIDTH = 500; // I know it's bad, but it's too lazy to think about other ideas
 
 const Canvas: React.FC = () => {
   const [drawer, setDriver] = useState<CanvasDrawer>();
-  const canvas = useRef<HTMLCanvasElement>(null);
+  const wrapper = useRef<HTMLDivElement>(null);
   const { width, height } = useResize();
 
   useEffect(() => {
-    const cnv = canvas.current;
+    const wrp = wrapper.current;
 
-    if (cnv) {
-      const drawer = new CanvasDrawer(cnv, new DrawerStyles());
+    if (wrp) {
+      const canvases: ICanvasList = {
+        drawer: wrp.children[0] as HTMLCanvasElement,
+        template: wrp.children[1] as HTMLCanvasElement,
+      };
+
+      const drawer = new CanvasDrawer(canvases, new DrawerStyles());
       setDriver(drawer);
     }
 
@@ -43,8 +49,9 @@ const Canvas: React.FC = () => {
       }}
       className="base-canvas"
     >
-      <div className="base-canvas__wrapper">
-        <canvas ref={canvas} className="base-canvas__canvas"></canvas>
+      <div ref={wrapper} className="base-canvas__wrapper">
+        <canvas className="base-canvas__canvas-drawer"></canvas>
+        <canvas className="base-canvas__canvas-template"></canvas>
       </div>
       <div className="base-canvas__action-bar">
         <ActionBar

@@ -11,11 +11,22 @@
   flexy(center, center);
 
   &__wrapper {
+    relative();
     size(100%);
   }
 
-  &__canvas {
+  &__canvas-drawer,
+  &__canvas-template {
     size(100%);
+    absolute(0px, 0px, 0px, 0px);
+  }
+
+  &__canvas-template {
+    z-index: 2;
+  }
+
+  &__canvas-drawer {
+    z-index: 5;    
   }
 
   &__action-bar {

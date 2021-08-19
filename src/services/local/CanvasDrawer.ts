@@ -1,4 +1,4 @@
-import { IDrawerStyles } from '@/typings';
+import { IDrawerStyles, ICanvasList, IContextsList } from '@/typings';
 import { IPoint } from '@/models/Point';
 import LazyBrush from '@/models/LazyBrush';
 
@@ -10,23 +10,18 @@ function midPointBtw(p1: IPoint, p2: IPoint) {
 }
 
 class CanvasDrawer {
-  private ctx: CanvasRenderingContext2D;
+  private contexts: IContextsList;
   private points: IPoint[];
   private isDrawing: boolean;
   private isPressing: boolean;
   private lazy: LazyBrush;
 
-  constructor(
-    private canvas: HTMLCanvasElement,
-    private styles: IDrawerStyles,
-  ) {
-    this.ctx = this.getContext(this.canvas);
+  constructor(private canvases: ICanvasList, private styles: IDrawerStyles) {
+    this.contexts = this.getContexts(canvases);
     this.lazy = new LazyBrush();
-
     this.points = [];
     this.isDrawing = false;
     this.isPressing = false;
-
     this.init();
   }
 
@@ -42,17 +37,30 @@ class CanvasDrawer {
     this.isPressing = false;
     this.points.length = 0;
 
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.contexts.template.drawImage(
+      this.canvases.drawer,
+      0,
+      0,
+      this.canvases.template.width,
+      this.canvases.template.height,
+    );
+
+    this.contexts.drawer.clearRect(
+      0,
+      0,
+      this.canvases.drawer.width,
+      this.canvases.drawer.height,
+    );
   }
 
   private handlePointerMove(x: number, y: number) {
     const hasChanged = this.lazy.update({ x: x, y: y });
     const isDisabled = !this.lazy.isEnabled();
 
-    this.ctx.lineJoin = this.styles.lineJoin;
-    this.ctx.lineCap = this.styles.lineCap;
-    this.ctx.lineWidth = this.styles.lineWidth;
-    this.ctx.strokeStyle = this.styles.color;
+    this.contexts.drawer.lineJoin = this.styles.lineJoin;
+    this.contexts.drawer.lineCap = this.styles.lineCap;
+    this.contexts.drawer.lineWidth = this.styles.lineWidth;
+    this.contexts.drawer.strokeStyle = this.styles.color;
 
     if (
       (this.isPressing && hasChanged && !this.isDrawing) ||
@@ -63,32 +71,40 @@ class CanvasDrawer {
     }
 
     if (this.isDrawing && (this.lazy.brushHasMoved() || isDisabled)) {
-      this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+      this.contexts.drawer.clearRect(
+        0,
+        0,
+        this.canvases.drawer.width,
+        this.canvases.drawer.height,
+      );
       this.points.push(this.lazy.brush.toObject());
 
-      var p1 = this.points[0];
-      var p2 = this.points[1];
+      let p1 = this.points[0];
+      let p2 = this.points[1];
 
-      this.ctx.moveTo(p2.x, p2.y);
-      this.ctx.beginPath();
+      this.contexts.drawer.moveTo(p2.x, p2.y);
+      this.contexts.drawer.beginPath();
 
-      for (var i = 1, len = this.points.length; i < len; i++) {
-        var midPoint = midPointBtw(p1, p2);
-        this.ctx.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
+      for (let i = 1, len = this.points.length; i < len; i++) {
+        const midPoint = midPointBtw(p1, p2);
+        this.contexts.drawer.quadraticCurveTo(
+          p1.x,
+          p1.y,
+          midPoint.x,
+          midPoint.y,
+        );
         p1 = this.points[i];
         p2 = this.points[i + 1];
       }
 
-      this.ctx.lineTo(p1.x, p1.y);
-      this.ctx.stroke();
+      this.contexts.drawer.lineTo(p1.x, p1.y);
+      this.contexts.drawer.stroke();
     }
   }
 
   private normalizeCoordinates(event: MouseEvent): void {
-    const { clientX: x, clientY: y } = event;
-    const { offsetLeft: canvasX, offsetTop: canvasY } = this.canvas;
-
-    this.handlePointerMove(x - canvasX, y - canvasY);
+    const { offsetX: x, offsetY: y } = event;
+    this.handlePointerMove(x, y);
   }
 
   // interface
@@ -106,7 +122,7 @@ class CanvasDrawer {
 
   private handleTouchMove(event: TouchEvent) {
     const { clientX: x, clientY: y } = event.changedTouches[0];
-    const { offsetLeft: canvasX, offsetTop: canvasY } = this.canvas;
+    const { offsetLeft: canvasX, offsetTop: canvasY } = this.canvases.drawer;
 
     event.preventDefault();
     this.handlePointerMove(x - canvasX, y - canvasY);
@@ -129,7 +145,19 @@ class CanvasDrawer {
   }
 
   public clearCanvas(): void {
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.contexts.drawer.clearRect(
+      0,
+      0,
+      this.canvases.drawer.width,
+      this.canvases.drawer.height,
+    );
+
+    this.contexts.template.clearRect(
+      0,
+      0,
+      this.canvases.template.width,
+      this.canvases.template.height,
+    );
   }
 
   public remove(): void {
@@ -152,46 +180,70 @@ class CanvasDrawer {
     this.setSizes();
   }
 
-  private getContext(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
-    const context = canvas.getContext('2d');
+  private getContexts(canvases: ICanvasList): IContextsList {
+    const drawer = canvases.drawer.getContext('2d');
+    const template = canvases.template.getContext('2d');
 
-    if (!context)
-      throw new Error('Your browser does not support 2d canvas context');
+    if (!drawer || !template)
+      throw new Error('Your browser does not support 2d canvases context');
 
-    return context;
+    return { drawer, template };
   }
 
   private setListeners(): void {
     // mouse events
-    this.canvas.addEventListener('mousedown', this.handlePointerDown);
-    this.canvas.addEventListener('mouseup', this.handlePointerUp);
-    this.canvas.addEventListener('mousemove', this.normalizeCoordinates);
-    this.canvas.addEventListener('contextmenu', this.handleContextMenu);
+    this.canvases.drawer.addEventListener('mousedown', this.handlePointerDown);
+    this.canvases.drawer.addEventListener('mouseup', this.handlePointerUp);
+    this.canvases.drawer.addEventListener(
+      'mousemove',
+      this.normalizeCoordinates,
+    );
+    this.canvases.drawer.addEventListener(
+      'contextmenu',
+      this.handleContextMenu,
+    );
 
     // touch events
-    this.canvas.addEventListener('touchstart', this.handleTouchStart);
-    this.canvas.addEventListener('touchend', this.handleTouchEnd);
-    this.canvas.addEventListener('touchmove', this.handleTouchMove);
+    this.canvases.drawer.addEventListener('touchstart', this.handleTouchStart);
+    this.canvases.drawer.addEventListener('touchend', this.handleTouchEnd);
+    this.canvases.drawer.addEventListener('touchmove', this.handleTouchMove);
   }
 
   private removeListeners(): void {
     // mouse events
-    this.canvas.removeEventListener('mousedown', this.handlePointerDown);
-    this.canvas.removeEventListener('mouseup', this.handlePointerUp);
-    this.canvas.removeEventListener('mousemove', this.normalizeCoordinates);
-    this.canvas.removeEventListener('contextmenu', this.handleContextMenu);
+    this.canvases.drawer.removeEventListener(
+      'mousedown',
+      this.handlePointerDown,
+    );
+    this.canvases.drawer.removeEventListener('mouseup', this.handlePointerUp);
+    this.canvases.drawer.removeEventListener(
+      'mousemove',
+      this.normalizeCoordinates,
+    );
+    this.canvases.drawer.removeEventListener(
+      'contextmenu',
+      this.handleContextMenu,
+    );
 
     // touch events
-    this.canvas.removeEventListener('touchstart', this.handleTouchStart);
-    this.canvas.removeEventListener('touchend', this.handleTouchEnd);
-    this.canvas.removeEventListener('touchmove', this.handleTouchMove);
+    this.canvases.drawer.removeEventListener(
+      'touchstart',
+      this.handleTouchStart,
+    );
+    this.canvases.drawer.removeEventListener('touchend', this.handleTouchEnd);
+    this.canvases.drawer.removeEventListener('touchmove', this.handleTouchMove);
   }
 
   public setSizes(): void {
-    const { offsetWidth, offsetHeight } = this.canvas;
+    const { offsetWidth: drawerWidth, offsetHeight: drawerHeight } =
+      this.canvases.drawer;
+    const { offsetWidth: tmpWidth, offsetHeight: tmpHeight } =
+      this.canvases.template;
 
-    this.canvas.width = offsetWidth;
-    this.canvas.height = offsetHeight;
+    this.canvases.drawer.width = drawerWidth;
+    this.canvases.drawer.height = drawerHeight;
+    this.canvases.template.width = tmpWidth;
+    this.canvases.template.height = tmpHeight;
   }
 }
 

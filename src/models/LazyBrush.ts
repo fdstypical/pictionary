@@ -10,11 +10,7 @@ export default class LazyBrush {
   public pointer: LazyPoint;
   public brush: LazyPoint;
 
-  constructor(
-    private _radius: number = RADIUS_DEFAULT,
-    private _isEnabled: boolean = true,
-    initialPoint: IPoint = { x: 0, y: 0 },
-  ) {
+  constructor(private _radius: number = RADIUS_DEFAULT, private _isEnabled: boolean = true, initialPoint: IPoint = { x: 0, y: 0 }) {
     this.pointer = new LazyPoint(initialPoint.x, initialPoint.y);
     this.brush = new LazyPoint(initialPoint.x, initialPoint.y);
 

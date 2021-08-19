@@ -9,23 +9,12 @@ export interface ColorBtnProps {
   onClick: (color: string) => void;
 }
 
-const ColorBtn: React.FC<ColorBtnProps> = ({
-  color,
-  active = false,
-  border = false,
-  children,
-  onClick,
-}) => {
-  const classNames = `color-btn ${active ? 'color-btn--active' : ''} ${
-    border ? 'border' : ''
-  }`;
+const ColorBtn: React.FC<ColorBtnProps> = ({ color, active = false, border = false, children, onClick }) => {
+  const classNames = `color-btn ${active ? 'color-btn--active' : ''} ${border ? 'border' : ''}`;
 
   return (
     <button className={classNames} onClick={() => onClick(color)}>
-      <div
-        className="color-btn__inner"
-        style={{ backgroundColor: color, color: color }}
-      >
+      <div className="color-btn__inner" style={{ backgroundColor: color, color: color }}>
         {children}
       </div>
     </button>

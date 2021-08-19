@@ -20,11 +20,7 @@ export interface LogoProps {
   theme?: LogoThemes;
 }
 
-const Logo: React.FC<LogoProps> = ({
-  to = '/',
-  theme = LogoThemes.default,
-  color = LogoColors.primary,
-}) => {
+const Logo: React.FC<LogoProps> = ({ to = '/', theme = LogoThemes.default, color = LogoColors.primary }) => {
   const classNames = `base-logo base-logo--color_${color} base-logo--theme_${theme}`;
 
   return (

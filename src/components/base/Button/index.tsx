@@ -62,9 +62,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   const classNames = `base-button base-button--theme_${theme} base-button--color_${color} base-button--size_${size} base-button--shape_${shape} ${
     reverse ? 'reverse' : ''
-  } ${wide ? 'wide' : ''} ${dense ? 'dense' : ''} ${
-    icon && !title && !children ? 'only-icon' : ''
-  }`;
+  } ${wide ? 'wide' : ''} ${dense ? 'dense' : ''} ${icon && !title && !children ? 'only-icon' : ''}`;
 
   return (
     <button className={classNames} disabled={disabled} onClick={onClick}>

@@ -11,20 +11,9 @@ export interface ActionBarProps {
   onChangeLineWidth: (lineWidth: number) => void;
 }
 
-const colors: string[] = [
-  '#000000',
-  '#fcba03',
-  '#2dfa53',
-  '#ff5252',
-  '#ff943d',
-  '#ffffff',
-];
+const colors: string[] = ['#000000', '#fcba03', '#2dfa53', '#ff5252', '#ff943d', '#ffffff'];
 
-const ActionBar: React.FC<ActionBarProps> = ({
-  onDelete,
-  onChangeColor,
-  onChangeLineWidth,
-}) => {
+const ActionBar: React.FC<ActionBarProps> = ({ onDelete, onChangeColor, onChangeLineWidth }) => {
   const [color, setColor] = useState<string>('#000000');
   const [width, setWidth] = useState<number>(10);
 
@@ -46,24 +35,12 @@ const ActionBar: React.FC<ActionBarProps> = ({
       </div>
       <div className="action-bar__colors">
         {colors.map((c, i) => (
-          <ColorBtn
-            key={i}
-            color={c}
-            active={c === color}
-            border={c === '#ffffff'}
-            onClick={handleChangeColor}
-          />
+          <ColorBtn key={i} color={c} active={c === color} border={c === '#ffffff'} onClick={handleChangeColor} />
         ))}
       </div>
 
       <div className="action-bar__line-width">
-        <Range
-          min={5}
-          max={50}
-          value={width}
-          orientation={RangeOrientations.vertical}
-          onChange={handleChangeWidth}
-        />
+        <Range min={5} max={50} value={width} orientation={RangeOrientations.vertical} onChange={handleChangeWidth} />
       </div>
     </div>
   );

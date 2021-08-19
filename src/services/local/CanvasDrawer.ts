@@ -39,20 +39,8 @@ class CanvasDrawer {
     this.isPressing = false;
     this.points.length = 0;
 
-    this.contexts.template.drawImage(
-      this.canvases.drawer,
-      0,
-      0,
-      this.canvases.template.width,
-      this.canvases.template.height,
-    );
-
-    this.contexts.drawer.clearRect(
-      0,
-      0,
-      this.canvases.drawer.width,
-      this.canvases.drawer.height,
-    );
+    this.contexts.template.drawImage(this.canvases.drawer, 0, 0, this.canvases.template.width, this.canvases.template.height);
+    this.contexts.drawer.clearRect(0, 0, this.canvases.drawer.width, this.canvases.drawer.height);
   }
 
   private handlePointerMove(x: number, y: number) {
@@ -64,21 +52,13 @@ class CanvasDrawer {
     this.contexts.drawer.lineWidth = this.styles.lineWidth;
     this.contexts.drawer.strokeStyle = this.styles.color;
 
-    if (
-      (this.isPressing && hasChanged && !this.isDrawing) ||
-      (this.isPressing && isDisabled)
-    ) {
+    if ((this.isPressing && hasChanged && !this.isDrawing) || (this.isPressing && isDisabled)) {
       this.isDrawing = true;
       this.points.push(this.lazy.brush.toObject());
     }
 
     if (this.isDrawing && (this.lazy.brushHasMoved() || isDisabled)) {
-      this.contexts.drawer.clearRect(
-        0,
-        0,
-        this.canvases.drawer.width,
-        this.canvases.drawer.height,
-      );
+      this.contexts.drawer.clearRect(0, 0, this.canvases.drawer.width, this.canvases.drawer.height);
       this.points.push(this.lazy.brush.toObject());
 
       let p1 = this.points[0];
@@ -89,12 +69,7 @@ class CanvasDrawer {
 
       for (let i = 1, len = this.points.length; i < len; i++) {
         const midPoint = midPointBtw(p1, p2);
-        this.contexts.drawer.quadraticCurveTo(
-          p1.x,
-          p1.y,
-          midPoint.x,
-          midPoint.y,
-        );
+        this.contexts.drawer.quadraticCurveTo(p1.x, p1.y, midPoint.x, midPoint.y);
         p1 = this.points[i];
         p2 = this.points[i + 1];
       }
@@ -147,19 +122,9 @@ class CanvasDrawer {
   }
 
   public clearCanvas(): void {
-    this.contexts.drawer.clearRect(
-      0,
-      0,
-      this.canvases.drawer.width,
-      this.canvases.drawer.height,
-    );
+    this.contexts.drawer.clearRect(0, 0, this.canvases.drawer.width, this.canvases.drawer.height);
 
-    this.contexts.template.clearRect(
-      0,
-      0,
-      this.canvases.template.width,
-      this.canvases.template.height,
-    );
+    this.contexts.template.clearRect(0, 0, this.canvases.template.width, this.canvases.template.height);
   }
 
   public remove(): void {
@@ -186,8 +151,7 @@ class CanvasDrawer {
     const drawer = canvases.drawer.getContext('2d');
     const template = canvases.template.getContext('2d');
 
-    if (!drawer || !template)
-      throw new Error('Your browser does not support 2d canvases context');
+    if (!drawer || !template) throw new Error('Your browser does not support 2d canvases context');
 
     return { drawer, template };
   }
@@ -196,14 +160,8 @@ class CanvasDrawer {
     // mouse events
     this.canvases.drawer.addEventListener('mousedown', this.handlePointerDown);
     this.canvases.drawer.addEventListener('mouseup', this.handlePointerUp);
-    this.canvases.drawer.addEventListener(
-      'mousemove',
-      this.normalizeCoordinates,
-    );
-    this.canvases.drawer.addEventListener(
-      'contextmenu',
-      this.handleContextMenu,
-    );
+    this.canvases.drawer.addEventListener('mousemove', this.normalizeCoordinates);
+    this.canvases.drawer.addEventListener('contextmenu', this.handleContextMenu);
 
     // touch events
     this.canvases.drawer.addEventListener('touchstart', this.handleTouchStart);
@@ -213,34 +171,20 @@ class CanvasDrawer {
 
   private removeListeners(): void {
     // mouse events
-    this.canvases.drawer.removeEventListener(
-      'mousedown',
-      this.handlePointerDown,
-    );
+    this.canvases.drawer.removeEventListener('mousedown', this.handlePointerDown);
     this.canvases.drawer.removeEventListener('mouseup', this.handlePointerUp);
-    this.canvases.drawer.removeEventListener(
-      'mousemove',
-      this.normalizeCoordinates,
-    );
-    this.canvases.drawer.removeEventListener(
-      'contextmenu',
-      this.handleContextMenu,
-    );
+    this.canvases.drawer.removeEventListener('mousemove', this.normalizeCoordinates);
+    this.canvases.drawer.removeEventListener('contextmenu', this.handleContextMenu);
 
     // touch events
-    this.canvases.drawer.removeEventListener(
-      'touchstart',
-      this.handleTouchStart,
-    );
+    this.canvases.drawer.removeEventListener('touchstart', this.handleTouchStart);
     this.canvases.drawer.removeEventListener('touchend', this.handleTouchEnd);
     this.canvases.drawer.removeEventListener('touchmove', this.handleTouchMove);
   }
 
   public setSizes(): void {
-    const { offsetWidth: drawerWidth, offsetHeight: drawerHeight } =
-      this.canvases.drawer;
-    const { offsetWidth: tmpWidth, offsetHeight: tmpHeight } =
-      this.canvases.template;
+    const { offsetWidth: drawerWidth, offsetHeight: drawerHeight } = this.canvases.drawer;
+    const { offsetWidth: tmpWidth, offsetHeight: tmpHeight } = this.canvases.template;
 
     this.canvases.drawer.width = drawerWidth;
     this.canvases.drawer.height = drawerHeight;

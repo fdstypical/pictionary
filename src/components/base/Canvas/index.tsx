@@ -38,8 +38,7 @@ const Canvas: React.FC = () => {
 
   const changeColor = (color: string) => drawer?.setColor(color);
 
-  const chnageLineWidth = (lineWidth: number) =>
-    drawer?.setLineWidth(lineWidth);
+  const chnageLineWidth = (lineWidth: number) => drawer?.setLineWidth(lineWidth);
 
   return (
     <div
@@ -54,11 +53,7 @@ const Canvas: React.FC = () => {
         <canvas id="template" className="base-canvas__canvas-template" />
       </div>
       <div className="base-canvas__action-bar">
-        <ActionBar
-          onDelete={clearCanvas}
-          onChangeColor={changeColor}
-          onChangeLineWidth={chnageLineWidth}
-        />
+        <ActionBar onDelete={clearCanvas} onChangeColor={changeColor} onChangeLineWidth={chnageLineWidth} />
       </div>
     </div>
   );

@@ -16,13 +16,7 @@ const BaseLayout: React.FC = () => {
     <div className="base-layout">
       <div className="base-layout__layout">
         <Header
-          start={
-            <Logo
-              to="/"
-              color={LogoColors.secondary}
-              theme={LogoThemes.italic}
-            />
-          }
+          start={<Logo to="/" color={LogoColors.secondary} theme={LogoThemes.italic} />}
           end={
             <Button
               dense
@@ -44,11 +38,7 @@ const BaseLayout: React.FC = () => {
         </main>
       </div>
 
-      <div
-        className={`base-layout__sidebar base-layout__sidebar--${
-          showSidebar ? 'open' : 'hidden'
-        }`}
-      >
+      <div className={`base-layout__sidebar base-layout__sidebar--${showSidebar ? 'open' : 'hidden'}`}>
         <Sidebar />
       </div>
     </div>

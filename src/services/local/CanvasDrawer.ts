@@ -18,10 +18,12 @@ class CanvasDrawer {
 
   constructor(private canvases: ICanvasList, private styles: IDrawerStyles) {
     this.contexts = this.getContexts(canvases);
-    this.lazy = new LazyBrush();
+    this.lazy = new LazyBrush(5);
+
     this.points = [];
     this.isDrawing = false;
     this.isPressing = false;
+
     this.init();
   }
 
@@ -141,7 +143,7 @@ class CanvasDrawer {
 
   public setLineWidth(lineWidth: number): void {
     this.styles.lineWidth = lineWidth;
-    this.lazy.setRadius(lineWidth);
+    this.lazy.setRadius(lineWidth / 2);
   }
 
   public clearCanvas(): void {

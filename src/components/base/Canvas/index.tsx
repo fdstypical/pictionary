@@ -19,8 +19,8 @@ const Canvas: React.FC = () => {
 
     if (wrp) {
       const canvases: ICanvasList = {
-        drawer: wrp.children[0] as HTMLCanvasElement,
-        template: wrp.children[1] as HTMLCanvasElement,
+        drawer: wrp.children.namedItem('drawer') as HTMLCanvasElement,
+        template: wrp.children.namedItem('template') as HTMLCanvasElement,
       };
 
       const drawer = new CanvasDrawer(canvases, new DrawerStyles());
@@ -50,8 +50,8 @@ const Canvas: React.FC = () => {
       className="base-canvas"
     >
       <div ref={wrapper} className="base-canvas__wrapper">
-        <canvas className="base-canvas__canvas-drawer"></canvas>
-        <canvas className="base-canvas__canvas-template"></canvas>
+        <canvas id="drawer" className="base-canvas__canvas-drawer" />
+        <canvas id="template" className="base-canvas__canvas-template" />
       </div>
       <div className="base-canvas__action-bar">
         <ActionBar

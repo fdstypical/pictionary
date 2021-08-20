@@ -1,21 +1,24 @@
+@require '~@/assets/stylus/vars/variables';
 @require '~@/assets/stylus/mixins/mixins';
 
 .color-btn {
   box-shadow: none;
   text-decoration: none;
   border: 2px solid transparent;
-  padding: 2px;
+  padding: 0px;
   background: transparent;
-  circle(30px);
+  circle(40px);
+  flexy(center, center);
   cursor: pointer;
+  box-sizing: bordedr-box;
 
   &__inner {
-    circle(100%);
-    border: 1px solid currentColor;
+    circle(30px);
+    border: 1px solid transparent;
   }
 
   &--active {
-    border-color: #000;
+    border-color: $color-dark.base;
   }
 
   &.border {

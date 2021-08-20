@@ -129,7 +129,6 @@ class CanvasDrawer {
 
   public clearCanvas(): void {
     this.contexts.drawer.clearRect(0, 0, this.canvases.drawer.width, this.canvases.drawer.height);
-
     this.contexts.template.clearRect(0, 0, this.canvases.template.width, this.canvases.template.height);
   }
 

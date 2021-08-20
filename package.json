@@ -1,5 +1,5 @@
 {
-  "name": "pictionary",
+  "name": "pictionary-frontend",
   "version": "1.0.0",
   "description": "draw and guess",
   "main": "index.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fdstypical/pictionary.git"
+    "url": "git+https://github.com/fdstypical/pictionary-frontend.git"
   },
   "keywords": [
     "js",
@@ -25,9 +25,9 @@
   "author": "fdstypical <ashulmin14@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/fdstypical/pictionary/issues"
+    "url": "https://github.com/fdstypical/pictionary-frontend/issues"
   },
-  "homepage": "https://github.com/fdstypical/pictionary#readme",
+  "homepage": "https://github.com/fdstypical/pictionary-frontend#readme",
   "devDependencies": {
     "@babel/core": "^7.14.8",
     "@babel/plugin-proposal-class-properties": "^7.14.5",

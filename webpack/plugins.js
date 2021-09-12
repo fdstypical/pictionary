@@ -5,12 +5,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
+const DotEnv = require('dotenv-webpack');
 const webpack = require('webpack');
 
 const htmlPluginConfig = {
   filename: 'index.html',
   hash: true,
 };
+
+const generalPlugins = [new ForkTsCheckerWebpackPlugin(), new SpriteLoaderPlugin({ plainSprite: true }), new DotEnv()];
 
 const plugins = {
   production: [
@@ -23,8 +26,7 @@ const plugins = {
       algorithm: 'gzip',
       compressionOptions: { level: 6 },
     }),
-    new ForkTsCheckerWebpackPlugin(),
-    new SpriteLoaderPlugin({ plainSprite: true }),
+    ...generalPlugins,
   ],
   development: [
     new HtmlWebpackPlugin({
@@ -32,8 +34,7 @@ const plugins = {
       template: path.resolve(__dirname, '/public/template.html'),
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new ForkTsCheckerWebpackPlugin(),
-    new SpriteLoaderPlugin({ plainSprite: true }),
+    ...generalPlugins,
   ],
 };
 

@@ -41,3 +41,5 @@ export interface IContextsList {
   drawer: CanvasRenderingContext2D;
   template: CanvasRenderingContext2D;
 }
+
+export type TypedMap<T, K> = Map<T, K>;

@@ -50,7 +50,7 @@ class CanvasDrawer {
   }
 
   private handlePointerMove(x: number, y: number) {
-    const hasChanged = this.lazy.update({ x: x, y: y });
+    const hasChanged = this.lazy.update({ x, y });
     const isDisabled = !this.lazy.isEnabled();
 
     this.contexts.drawer.lineJoin = this.styles.lineJoin;

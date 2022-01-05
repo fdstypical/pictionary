@@ -8,22 +8,22 @@ export enum Events {
 }
 
 export default class SocketService {
-  private listeners: TypedMap<Events, Function[]> = new Map();
-  private socket: WebSocket;
+  protected listeners: TypedMap<Events, Function[]> = new Map();
+  protected socket: WebSocket;
 
   constructor(url: string = String(process.env.WS_PATH)) {
     this.socket = new WebSocket(url);
     this.setSocketListeners();
   }
 
-  private setSocketListeners(): void {
+  protected setSocketListeners(): void {
     this.socket.addEventListener(Events.open, () => this.emit(Events.open));
     this.socket.addEventListener(Events.message, () => this.emit(Events.message));
     this.socket.addEventListener(Events.error, () => this.emit(Events.error));
     this.socket.addEventListener(Events.close, () => this.emit(Events.close));
   }
 
-  private emit(event: Events): void {
+  protected emit(event: Events): void {
     const listeners = this.listeners.get(event);
 
     if (!listeners || listeners?.length === 0) {
@@ -31,6 +31,10 @@ export default class SocketService {
     }
 
     listeners.forEach((cb) => cb());
+  }
+
+  public send(data: string | ArrayBufferLike | Blob | ArrayBufferView): void {
+    this.socket.send(data);
   }
 
   public subscribe(event: Events, cb: Function): void {
